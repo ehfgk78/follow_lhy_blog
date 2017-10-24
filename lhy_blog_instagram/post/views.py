@@ -66,3 +66,14 @@ def comment_create(request, post_pk):
         # comment_form이 유효하지 않더라도
         # 'post' 네임스페이스를 가진 url의 'post_list'이름에 해당하는 뷰로 이동
         return redirect('post:post_list')
+
+def post_detail(request, post_pk):
+    return render(
+        request,
+        'post/post_detail.html',
+        context={
+            'post': get_object_or_404(Post, pk=post_pk),
+            'comment_form':  CommentForm(),
+        }
+    )
+
