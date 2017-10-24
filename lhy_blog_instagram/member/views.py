@@ -5,7 +5,7 @@ from django.contrib.auth import (
 )
 from django.shortcuts import render, redirect
 
-from member.forms import LoginForm
+from member.forms import LoginForm, SignupForm
 
 
 def login(request):
@@ -39,3 +39,22 @@ def login(request):
 def logout(request):
     django_logout(request)
     return redirect('post:post_list')
+
+def signup(request):
+    if request.method == 'POST':
+        signup_form = SignupForm(request.POST)
+        # 유효성 검증 (username중복, password 재입력 동일성)
+        if signup_form.is_valid():
+            signup_form.signup()
+            return redirect('post:post_list')
+    else:
+        signup_form = SignupForm()
+    return render(
+        request,
+        'member/signup.html',
+        context={
+            'signup_form': signup_form,
+        }
+    )
+
+
