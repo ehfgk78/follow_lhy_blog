@@ -1,0 +1,24 @@
+<div class="panel panel-default post-item">
+
+    {% if post_type == 'list' %}
+        <a href="{% url 'post:post_detail' post_pk=post.pk %}">
+            <img src="{{ post.photo.url  }}" alt="" class="post-image">
+        </a>
+    {% else %}
+        <img src="{{ post.photo.url }}" alt="" class="post_image">
+    {% endif %}
+
+        <div class="panel-body">
+            <ul>
+                {% for comment in post.comment_set.all %}
+                <li>{{ comment.author }} - {{ comment.content }}</li>
+                {% endfor %}
+            </ul>
+            <form action="{% url 'post:comment_create' post_pk=post.pk  %}"
+            method="POST"
+            class="comment-form">
+                {% csrf_token %}
+                <input type="text" name="content" placeholder="댓글 달기...">
+            </form>
+        </div>
+    </div>

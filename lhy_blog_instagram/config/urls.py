@@ -18,13 +18,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 from config import settings
+from .views import  to_post_list
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', to_post_list, name='to_post_list'),
     url(r'^post/', include('post.urls', namespace='post')),
 
 ]
-
 
 urlpatterns += static(
     settings.MEDIA_URL,
