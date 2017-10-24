@@ -1,12 +1,31 @@
 from django import forms
 
+from post.models import Comment
 
-class CommentForm(forms.Form):
-    content = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                'class': 'content',
-                'placeholder': '댓글 달기...',
-            }
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields= (
+            'content',
         )
-    )
+        widgets = {
+            'content': forms.TextInput(
+                attrs={
+                    'class': 'content',
+                    'placeholder': '댓글 달기...',
+                }
+            )
+        }
+
+
+    def clean_content(self):
+        data = self.cleaned_data['content']
+        errors = []
+        if data == '':
+            errors.append(forms.ValidationError('댓글 내용을 입력해주세요.'))
+        elif len(data) > 50:
+            errors.append(forms.ValidationError('댓글 내용은 50자 이하로 입력해주세요'))
+        if errors:
+            raise forms.ValidationError(errors)
+        return data
