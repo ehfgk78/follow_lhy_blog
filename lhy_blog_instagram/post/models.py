@@ -10,9 +10,10 @@ class Post(models.Model):
     def __str__(self):
         return f'Post (PK: {self.pk}, Author: {self.author.username})'
 
+
 class Comment(models.Model):
     post = models.ForeignKey(Post)
-    author =models.ForeignKey(settings.AUTH_USER_MODEL)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
     content = models.TextField()
 
     def __str__(self):

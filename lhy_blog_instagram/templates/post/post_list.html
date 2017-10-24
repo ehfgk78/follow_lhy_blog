@@ -18,8 +18,14 @@
     <div class="panel panel-default post-item">
         <img src="{{ post.photo.url  }}" alt="" class="post-image">
         <div class="panel-body">
+            <ul>
+                {% for comment in post.comment_set.all %}
+                <li>{{ comment.author }} - {{ comment.content }}</li>
+                {% endfor %}
+            </ul>
             <form action="{% url 'post:comment_create' post_pk=post.pk  %}"
-            method="POST" class="comment-form">
+            method="POST"
+            class="comment-form">
                 {% csrf_token %}
                 <input type="text" name="content" placeholder="댓글 달기...">
             </form>
