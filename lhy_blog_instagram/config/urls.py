@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', to_post_list, name='to_post_list'),
     url(r'^post/', include('post.urls', namespace='post')),
-
+    url(r'^member/', include('member.urls', namespace='member')),
 ]
 
 urlpatterns += static(
