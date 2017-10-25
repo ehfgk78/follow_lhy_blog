@@ -1,4 +1,7 @@
-<form action="" method="post">
+<form action="" method="POST"
+	       type = {% if file %} {% endif %}
+	       enctype="multipart/form-data"	>
+
 	{% csrf_token %}
 	{% for field in form %}
 		<div class="form-group{% if field.errors %} has-error{% endif %}">

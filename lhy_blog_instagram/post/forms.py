@@ -1,12 +1,20 @@
 from django import forms
 
-from post.models import Comment
+from .models import Comment, Post
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = (
+            'photo',
+        )
 
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields= (
+        fields = (
             'content',
         )
         widgets = {
@@ -17,7 +25,6 @@ class CommentForm(forms.ModelForm):
                 }
             )
         }
-
 
     def clean_content(self):
         data = self.cleaned_data['content']

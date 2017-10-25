@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
-from .forms import CommentForm
+from .forms import CommentForm, PostForm
 from .models import Post
 
 
@@ -77,3 +77,24 @@ def post_detail(request, post_pk):
         }
     )
 
+def post_create(request):
+    if request.method == 'POST':
+        # 이미지 파일을 함께 처리하므로
+        post_form = PostForm(request.POST, request.FILES)
+        if post_form.is_valid():
+            # 이미지와 함께 작성자 author를 같이 올리기 위해  DB 저장 전  객체만 생성
+            post = post_form.save(commit=False)
+            # author 필드 완성 : 로그인한 사용자
+            post.author = request.user
+            post.save()
+            # 성공 알림을 messages에 추가 후 post_list뷰로 이동
+            messages.success(request, '사진이 등록되었습니다. ')
+    else:
+        post_form = PostForm()
+    return render(
+        request,
+        'post/post_create.html',
+        context={
+            'post_form': post_form,
+        }
+    )
